@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getArticleDateDisplay } from '@/lib/swedish-date';
+import { formatSwedishDateWithAuthor } from '@/lib/swedish-date';
 
 type Card = { 
   title:string; 
@@ -32,27 +32,17 @@ export default function PostCard({ title, slug, excerpt, featured, categories, d
           </div>
         </Link>
       )}
-      {((categories && categories.length > 0) || date) && (
-        <div className="flex items-center gap-2 mt-2 text-sm text-gray-600">
-          {categories && categories.length > 0 && (() => {
-            const category = categories.filter(cat => cat.slug !== 'uncategorized')[0];
-            return category ? (
-              <>
-                <Link 
-                  href={`/${category.slug}`} 
-                  className="font-medium text-gray-700 hover:text-gray-400 transition-colors"
-                >
-                  {category.name}
-                </Link>
-                {date && <span className="text-gray-400">•</span>}
-              </>
-            ) : null;
-          })()}
-          {date && (
-            <span className="text-gray-500">
-              {getArticleDateDisplay(date, modified)}
-            </span>
-          )}
+      {date && (
+        <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
+          <span>
+            {formatSwedishDateWithAuthor(date)} av{' '}
+            <Link 
+              href="/om-oss" 
+              className="hover:text-gray-400 transition-colors"
+            >
+              Redaktionen på AlltomSEO
+            </Link>
+          </span>
         </div>
       )}
       <h2 className="mt-4 text-lg font-semibold leading-snug">
@@ -60,8 +50,8 @@ export default function PostCard({ title, slug, excerpt, featured, categories, d
       </h2>
       {excerpt && (
         <div className="flex flex-col flex-grow">
-          <div className="prose prose-sm mt-1 max-w-none flex-grow" dangerouslySetInnerHTML={{ __html: excerpt }} />
-          <div className="mt-2.5">
+          <div className="prose prose-base mt-1 max-w-none flex-grow [&>*:last-child]:mb-0" dangerouslySetInnerHTML={{ __html: excerpt }} />
+          <div className="mt-3">
             <Link 
               href={`/${slug}`}
               className="inline-block px-5 py-2.5 bg-slate-600 text-white text-base font-medium rounded-xs hover:bg-slate-700 transition-colors duration-200"

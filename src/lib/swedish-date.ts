@@ -18,6 +18,18 @@ export function formatSwedishDate(dateString: string): string {
 }
 
 /**
+ * Format a date with author info (e.g., "11 december, 2025 av Redaktionen på AlltomSEO")
+ */
+export function formatSwedishDateWithAuthor(dateString: string): string {
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = swedishMonths[date.getMonth()];
+  const year = date.getFullYear();
+  
+  return `${day} ${month}, ${year}`;
+}
+
+/**
  * Determine if should show "last updated" instead of published date
  * Shows "last updated" if the post was modified more than 24 hours after publishing
  */

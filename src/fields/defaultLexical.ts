@@ -6,15 +6,50 @@ import {
   ParagraphFeature,
   lexicalEditor,
   UnderlineFeature,
+  HeadingFeature,
+  UnorderedListFeature,
+  OrderedListFeature,
+  ChecklistFeature,
+  BlockquoteFeature,
+  InlineCodeFeature,
+  StrikethroughFeature,
+  SubscriptFeature,
+  SuperscriptFeature,
+  HorizontalRuleFeature,
+  UploadFeature,
+  AlignFeature,
+  IndentFeature,
+  RelationshipFeature,
+  BlocksFeature,
+  FixedToolbarFeature,
+  InlineToolbarFeature,
+  HTMLConverterFeature,
+  EXPERIMENTAL_TableFeature,
   type LinkFields,
 } from '@payloadcms/richtext-lexical'
 
 export const defaultLexical = lexicalEditor({
   features: [
+    // Toolbars
+    FixedToolbarFeature(),
+    InlineToolbarFeature(),
+    
+    // Basic text
     ParagraphFeature(),
-    UnderlineFeature(),
+    HeadingFeature({
+      enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+    }),
+    
+    // Text formatting
     BoldFeature(),
     ItalicFeature(),
+    UnderlineFeature(),
+    StrikethroughFeature(),
+    SubscriptFeature(),
+    SuperscriptFeature(),
+    InlineCodeFeature(),
+    
+    // Links and relationships
     LinkFeature({
       enabledCollections: ['pages', 'posts'],
       fields: ({ defaultFields }) => {
@@ -43,5 +78,41 @@ export const defaultLexical = lexicalEditor({
         ]
       },
     }),
+    RelationshipFeature(),
+    
+    // Lists
+    UnorderedListFeature(),
+    OrderedListFeature(),
+    ChecklistFeature(),
+    
+    // Blocks
+    BlockquoteFeature(),
+    HorizontalRuleFeature(),
+    
+    // Layout
+    AlignFeature(),
+    IndentFeature(),
+    
+    // Media
+    UploadFeature({
+      collections: {
+        media: {
+          fields: [
+            {
+              name: 'caption',
+              type: 'text',
+              label: 'Caption',
+            },
+          ],
+        },
+      },
+    }),
+    
+    // Advanced features
+    BlocksFeature({
+      blocks: [],
+    }),
+    EXPERIMENTAL_TableFeature(),
+    HTMLConverterFeature(),
   ],
 })

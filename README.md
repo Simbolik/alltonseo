@@ -15,7 +15,7 @@ AlltomSEO.se is a Swedish content platform dedicated to helping users master sea
 ### Backend
 - **Payload CMS 3.68.2** - Headless CMS with full TypeScript support
 - **MongoDB 8.0.16** - Database for content storage
-- **Lexical Editor** - Rich text editing with blocks support
+- **Lexical Editor** - Full-featured rich text editing with all features enabled
 
 ### Frontend
 - **Next.js 15.5.7** - App Router with server components
@@ -27,13 +27,16 @@ AlltomSEO.se is a Swedish content platform dedicated to helping users master sea
 ### Features
 - ✅ Draft/Publish workflow with versioning
 - ✅ Live preview and draft previews
-- ✅ SEO plugin with meta fields
-- ✅ Swedish date formatting
-- ✅ Smart excerpt generation
-- ✅ Category taxonomy
+- ✅ SEO plugin with meta fields for Posts, Pages, and Categories
+- ✅ Swedish date formatting with author attribution
+- ✅ Smart excerpt generation (80 words)
+- ✅ Category taxonomy with individual hero content
 - ✅ Responsive images
 - ✅ JSON-LD structured data
-- ✅ Mobile-first design
+- ✅ Mobile-first design with unified box card styling
+- ✅ Root-level post URLs (e.g., `/post-slug` instead of `/posts/post-slug`)
+- ✅ Page Heroes collection for manageable hero content
+- ✅ Full Lexical editor features (tables, formatting, media, etc.)
 
 ## 📁 Project Structure
 
@@ -49,8 +52,10 @@ AlltomSEO.se is a Swedish content platform dedicated to helping users master sea
 │   ├── collections/              # Payload collections
 │   │   ├── Posts/                # Blog posts
 │   │   ├── Pages/                # Static pages
-│   │   ├── Categories/           # Taxonomy
-│   │   └── Media/                # Image uploads
+│   │   ├── Categories/           # Taxonomy with SEO
+│   │   ├── PageHeroes/           # Hero content manager
+│   │   ├── Media/                # Image uploads
+│   │   └── Users/                # Admin users
 │   ├── components/
 │   │   └── site/                 # Frontend components
 │   │       ├── posts/            # Post components
@@ -131,19 +136,31 @@ AlltomSEO.se is a Swedish content platform dedicated to helping users master sea
 - Title, slug, content (Lexical rich text)
 - Hero image
 - Categories (multiple)
-- Published date
-- SEO fields (title, description)
+- Published date with Swedish formatting
+- Author attribution ("Redaktionen på AlltomSEO")
+- SEO fields (title, description, image)
 - Draft/publish workflow
+- Root-level URLs (e.g., `/seo-guide`)
 
 #### Pages
 - Title, slug, content (Lexical rich text)
-- Hero image
-- SEO fields
+- Simple rich text content (no complex blocks)
+- SEO fields (title, description, image)
 - Draft/publish workflow
+- Clean box card design
 
 #### Categories
-- Name, slug, description
+- Name, slug
+- Hero content (Lexical rich text) - unique per category
+- SEO fields (title, description, image)
 - Used to organize posts
+- Individual hero content for each category page
+
+#### Page Heroes
+- Manageable hero content for different page types
+- Homepage, Search, About, Contact, Custom pages
+- Rich text editor for custom content
+- Replaces hardcoded heroes
 
 #### Media
 - Image uploads
@@ -223,11 +240,14 @@ The entire site is optimized for Swedish audience:
 - Robots directives
 
 ### Content Optimization
-- Smart excerpt generation (65 words)
-- Table of contents generation
-- Heading hierarchy
+- Smart excerpt generation (80 words with sentence completion)
+- Swedish date formatting (e.g., "11 december, 2025")
+- Author attribution with link to About page
+- Unified box card design across all content types
+- Heading hierarchy with proper styling
 - Image optimization
 - Swedish keyword optimization
+- Proper paragraph spacing without excess margins
 
 ## 🚢 Production Deployment
 

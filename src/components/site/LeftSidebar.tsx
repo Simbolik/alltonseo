@@ -7,7 +7,7 @@ export default async function LeftSidebar(){
     const categories = await getCategories();
     
     // Sort alphabetically
-    const sortedCategories = categories.sort((a, b) => a.name.localeCompare(b.name));
+    const sortedCategories = categories.sort((a, b) => a.title.localeCompare(b.title));
 
     return (
       <div className="sticky top-4 rounded-lg border border-gray-100 bg-[#f0f1f3] p-4 shadow-3d">
@@ -30,7 +30,7 @@ export default async function LeftSidebar(){
                 className="flex items-center gap-3 text-base text-gray-700 hover:text-[#c07c3e] transition-colors duration-200"
               >
                 <Folder className="w-5 h-5 text-gray-500" />
-                <span>{c.name}</span>
+                <span>{c.title}</span>
               </Link>
             </li>
           ))}

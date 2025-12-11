@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getArticleDateDisplay } from '@/lib/swedish-date';
+import { formatSwedishDateWithAuthor } from '@/lib/swedish-date';
 import ResponsiveImage from '@/components/ui/ResponsiveImage';
 
 type Hero = { 
@@ -47,27 +47,17 @@ export default function PostHero({ title, slug, excerpt, featured, categories, d
           </div>
         </Link>
       )}
-      {((categories && categories.length > 0) || date) && (
-        <div className="flex items-center gap-2 mt-2 text-sm text-gray-600">
-          {categories && categories.length > 0 && (() => {
-            const category = categories.filter(cat => cat.slug !== 'uncategorized')[0];
-            return category ? (
-              <>
-                <Link 
-                  href={`/${category.slug}`} 
-                  className="font-medium text-gray-700 hover:text-gray-400 transition-colors"
-                >
-                  {category.name}
-                </Link>
-                {date && <span className="text-gray-400">•</span>}
-              </>
-            ) : null;
-          })()}
-          {date && (
-            <span className="text-gray-500">
-              {getArticleDateDisplay(date, modified)}
-            </span>
-          )}
+      {date && (
+        <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
+          <span>
+            {formatSwedishDateWithAuthor(date)} av{' '}
+            <Link 
+              href="/om-oss" 
+              className="hover:text-gray-400 transition-colors"
+            >
+              Redaktionen på AlltomSEO
+            </Link>
+          </span>
         </div>
       )}
       <h2 className="mt-4 mb-3 text-2xl font-semibold leading-snug">
@@ -75,10 +65,10 @@ export default function PostHero({ title, slug, excerpt, featured, categories, d
       </h2>
       {excerpt && (
         <>
-          <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: excerpt }} />
+          <div className="prose prose-base max-w-none [&>*:last-child]:mb-0" dangerouslySetInnerHTML={{ __html: excerpt }} />
           <Link 
             href={`/${slug}`}
-            className="inline-block mt-2.5 px-5 py-2.5 bg-slate-600 text-white text-base font-medium rounded-xs hover:bg-slate-700 transition-colors duration-200"
+            className="inline-block mt-3 px-5 py-2.5 bg-slate-600 text-white text-base font-medium rounded-xs hover:bg-slate-700 transition-colors duration-200"
           >
             Läs hela artikeln →
           </Link>

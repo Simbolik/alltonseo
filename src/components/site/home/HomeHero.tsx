@@ -1,12 +1,12 @@
 // Combined intro and content in single box
 export default function HomeHero() {
   return (
-    <div className="bg-[#f0f1f3] rounded-lg border border-gray-100 shadow-3d p-4 mb-6">
-      <h1 className="text-sm font-semibold text-gray-800 mb-2">
+    <div className="bg-[#f0f1f3] rounded-lg border border-gray-100 shadow-3d p-6 mb-6">
+      <h1 className="text-3xl font-bold text-gray-800 mb-4">
         Bemästra Sökmotoroptimering (SEO)
       </h1>
       
-      <div className="text-xs space-y-2">
+      <div className="text-base space-y-4">
         <p>
           För dig som vill <strong>lära dig SEO</strong> och verkligen förstå hur{' '}
           <strong>sökmotoroptimering</strong> fungerar, är detta rätt plats. Vi täcker allt från
@@ -23,9 +23,9 @@ export default function HomeHero() {
           begripliga och handlingskraftiga steg.
         </p>
         
-        <h3 className="text-xs font-semibold text-gray-800 mt-2 mb-1">
+        <h2 className="text-xl font-bold text-gray-800 mt-4 mb-3">
           Hur vi hjälper dig att lyckas
-        </h3>
+        </h2>
         
         <p>
           För att ge dig en tydlig väg framåt har vi strukturerat vår kunskap kring de tre
@@ -33,7 +33,7 @@ export default function HomeHero() {
           dessa kan du systematiskt förbättra din närvaro på nätet.
         </p>
         
-        <ul className="list-disc pl-4 space-y-0.5 my-1.5">
+        <ul className="list-disc pl-6 space-y-2 my-3">
           <li>
             <strong>On-Page SEO:</strong> Allt du gör direkt på din egen webbplats. Vi lär dig
             att skriva och strukturera innehåll som både användare och Google älskar, från
@@ -52,9 +52,9 @@ export default function HomeHero() {
           </li>
         </ul>
         
-        <h3 className="text-xs font-semibold text-gray-800 mt-2 mb-1">
+        <h2 className="text-xl font-bold text-gray-800 mt-4 mb-3">
           Alltid uppdaterad – Alltid relevant
-        </h3>
+        </h2>
         
         <p>
           Googles introduktion av AI, som SGE (Search Generative Experience), förändrar
@@ -65,7 +65,7 @@ export default function HomeHero() {
           verkligt värde över tid.
         </p>
         
-        <h2 className="text-xs font-semibold text-gray-800 mt-2 mb-1">
+        <h2 className="text-xl font-bold text-gray-800 mt-4 mb-3">
           Utforska våra senaste artiklar
         </h2>
         

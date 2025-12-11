@@ -1,32 +1,32 @@
 import PostHero from '@/components/site/posts/PostHero';
 import PostCard from '@/components/site/posts/PostCard';
-import HomeHero from '@/components/site/home/HomeHero';
 import { getLatestPosts } from '@/lib/payload';
 import { lexicalToHtml, lexicalToPlainText } from '@/lib/lexical-to-html';
 import type { Metadata } from 'next';
 import { getOrganizationMainJson } from '@/lib/jsonld/organization-main';
+import configPromise from '@payload-config';
+import { getPayload } from 'payload';
+import RichText from '@/components/RichText';
 
 // Function to create smart excerpt from content
 function createSmartExcerpt(content: string, wordLimit: number = 65): string {
   if (!content) return '';
   
-  // Remove HTML tags to get plain text
-  const plainText = content.replace(/<[^>]*>/g, '').trim();
+  // First, replace paragraph tags with a space to preserve separation
+  const textWithSpaces = content
+    .replace(/<\/p>\s*<p>/gi, ' ') // Replace paragraph breaks with space
+    .replace(/<\/p>/gi, ' ') // Replace closing p tags with space
+    .replace(/<p>/gi, '') // Remove opening p tags
+    .replace(/<[^>]*>/g, '') // Remove remaining HTML tags
+    .replace(/\s+/g, ' ') // Normalize multiple spaces
+    .trim();
   
   // Split into words
-  const words = plainText.split(/\s+/);
+  const words = textWithSpaces.split(/\s+/);
   
   // If content is shorter than limit, return as is
   if (words.length <= wordLimit) {
-    return content
-      .replace(/\[&hellip;\]/g, '')
-      .replace(/\[&#8230;\]/g, '')
-      .replace(/\[…\]/g, '')
-      .replace(/\[…\]/g, '')
-      .replace(/&hellip;/g, '')
-      .replace(/&#8230;/g, '')
-      .replace(/…/g, '')
-      .trim();
+    return `<p>${textWithSpaces}</p>`;
   }
   
   // Build text up to word limit and find last complete sentence
@@ -46,8 +46,6 @@ function createSmartExcerpt(content: string, wordLimit: number = 65): string {
   // Use last complete sentence if we have one, otherwise use all words up to limit
   const targetText = lastCompleteSentence || currentText;
   
-  // Now reconstruct with HTML preserved
-  // This is simplified - just returns plain text in a <p> tag
   return `<p>${targetText}</p>`;
 }
 
@@ -119,6 +117,20 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
+  // Fetch homepage hero
+  const payload = await getPayload({ config: configPromise });
+  const heroResult = await payload.find({
+    collection: 'page-heroes',
+    where: {
+      pageType: {
+        equals: 'homepage',
+      },
+    },
+    limit: 1,
+  });
+  
+  const homepageHero = heroResult.docs[0];
+  
   let posts: Array<{
     title: string;
     slug: string;
@@ -152,8 +164,8 @@ export default async function Home() {
       // Use provided excerpt or generate from content
       const sourceText = p.excerpt || htmlContent || plainTextContent;
       
-      // Create smart excerpt with 65 word limit
-      const smartExcerpt = createSmartExcerpt(sourceText, 65);
+      // Create smart excerpt with 80 word limit
+      const smartExcerpt = createSmartExcerpt(sourceText, 80);
       
       // Image dimensions (default for now, can be enhanced)
       let heroWidth = 900;
@@ -181,7 +193,7 @@ export default async function Home() {
           width: heroWidth,
           height: heroHeight
         },
-        categories: p.category ? [{ name: p.category.name, slug: p.category.slug }] : [],
+        categories: p.category ? [{ name: p.category.title, slug: p.category.slug }] : [],
         date: p.publishedDate,
         modified: p.updatedAt
       };
@@ -200,11 +212,19 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(getOrganizationMainJson()) }}
       />
       
-      {/* Combined intro and content section - separate box */}
-      <HomeHero />
+      {/* Homepage Hero */}
+      {homepageHero && (
+        <div className="bg-[#f0f1f3] rounded-lg border border-gray-100 shadow-3d p-6 mb-6">
+          <RichText 
+            data={homepageHero.content} 
+            enableGutter={false} 
+            className="prose-headings:text-gray-800 prose-h1:text-3xl prose-h1:font-bold prose-h1:mb-4 prose-h2:text-xl prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-3 prose-h3:text-lg prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-2 prose-p:text-base prose-p:mb-4 prose-p:last:mb-0 prose-strong:font-semibold prose-ul:list-disc prose-ul:pl-6 prose-ul:space-y-2 prose-ul:my-3 prose-li:text-base [&>*:last-child]:mb-0"
+          />
+        </div>
+      )}
       
-      {/* Posts section - main content box */}
-      <main className="w-full bg-[#f0f1f3] rounded-lg border border-gray-100 shadow-3d p-6">
+      {/* Posts section */}
+      <main className="w-full">
         <section className="space-y-6">
           {first && <PostHero {...first} />}
           <div className="grid gap-6 md:grid-cols-2">
